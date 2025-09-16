@@ -10,6 +10,9 @@ const Dashboard = ({ setIsAuthenticated }) => {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('expenses');
 
+  // API URL with fallback
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
   useEffect(() => {
     fetchExpenses();
     fetchAnalytics();
@@ -18,7 +21,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
   const fetchExpenses = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/api/expenses', {
+      const response = await axios.get(`${API_URL}/api/expenses`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setExpenses(response.data);
@@ -31,7 +34,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
   const fetchAnalytics = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/api/expenses/analytics', {
+      const response = await axios.get(`${API_URL}/api/expenses/analytics`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setAnalytics(response.data);
@@ -43,7 +46,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
   const addExpense = async (expenseData) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post('http://localhost:5000/api/expenses', expenseData, {
+      const response = await axios.post(`${API_URL}/api/expenses`, expenseData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setExpenses([response.data, ...expenses]);
@@ -56,7 +59,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
   const deleteExpense = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5000/api/expenses/${id}`, {
+      await axios.delete(`${API_URL}/api/expenses/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setExpenses(expenses.filter(expense => expense._id !== id));

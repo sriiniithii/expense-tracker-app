@@ -12,6 +12,9 @@ const Register = ({ setIsAuthenticated }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // API URL with fallback
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -32,7 +35,7 @@ const Register = ({ setIsAuthenticated }) => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register', {
+      const response = await axios.post(`${API_URL}/api/auth/register`, {
         username: formData.username,
         email: formData.email,
         password: formData.password

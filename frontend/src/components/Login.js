@@ -10,6 +10,9 @@ const Login = ({ setIsAuthenticated }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // API URL with fallback
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -23,7 +26,7 @@ const Login = ({ setIsAuthenticated }) => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', formData);
+      const response = await axios.post(`${API_URL}/api/auth/login`, formData);
       
       // Save token and user info
       localStorage.setItem('token', response.data.token);
