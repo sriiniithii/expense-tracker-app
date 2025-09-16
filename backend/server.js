@@ -6,7 +6,13 @@ require('dotenv').config();
 const app = express();
 
 // Middleware (like security guards for your server)
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'https://expense-tracker-frontend-37i9.onrender.com'
+  ],
+  credentials: true
+}));
 app.use(express.json());
 
 // Connect to MongoDB
